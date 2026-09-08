@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Nhập và quản lý phiếu nhập kho VIMES" />
+    <title>Phiếu nhập kho | VIMES</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="app-header no-print">
+      <a class="brand" href="/" aria-label="VIMES - Trang nhập kho">
+        <span class="brand-mark" aria-hidden="true">V</span>
+        <span><strong>VIMES</strong><small>Quản lý kho</small></span>
+      </a>
+      <nav aria-label="Điều hướng chính">
+        <a href="#receipt-form" aria-current="page">Tạo phiếu</a>
+        <a href="#recent-receipts">Phiếu gần đây</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-intro no-print">
+        <div>
+          <p class="eyebrow">Nghiệp vụ kho</p>
+          <h1>Tạo phiếu nhập kho</h1>
+          <p>Ghi nhận hàng thực nhập, đối chiếu chứng từ và lưu số liệu kế toán trong một lần.</p>
+        </div>
+        <div class="intro-note">
+          <span>Trạng thái</span>
+          <strong id="draft-status">Bản nháp chưa lưu</strong>
+        </div>
+      </section>
+
+      <form id="receipt-form" novalidate>
+        <article class="document-shell">
+          <div class="document-meta">
+            <div>
+              <label for="companyName">Đơn vị</label>
+              <input id="companyName" value="Công ty VIMES" autocomplete="organization" />
+              <label for="department">Bộ phận</label>
+              <input id="department" value="Kho hàng" />
+            </div>
+            <div class="template-code">
+              <strong>Mẫu số 01 - VT</strong>
+              <span>Ban hành theo Thông tư 200/2014/TT-BTC</span>
+            </div>
+          </div>
+
+          <div class="document-title">
+            <p>Chứng từ nhập hàng</p>
+            <h2>PHIẾU NHẬP KHO</h2>
+          </div>
+
+          <div class="field-grid field-grid-top">
+            <div class="field span-2">
+              <label for="receiptDate">Ngày nhập <b aria-hidden="true">*</b></label>
+              <input id="receiptDate" name="receiptDate" type="date" required />
+              <small class="field-error" data-error-for="receiptDate"></small>
+            </div>
+            <div class="field span-2">
+              <label for="receiptNumber">Số phiếu</label>
+              <input id="receiptNumber" value="Tự động khi lưu" readonly aria-describedby="receipt-number-help" />
+              <small id="receipt-number-help" class="field-help">Hệ thống cấp số theo ngày nhập kho</small>
+            </div>
+            <div class="field">
+              <label for="debitAccount">Tài khoản Nợ <b aria-hidden="true">*</b></label>
+              <input id="debitAccount" name="debitAccount" maxlength="20" inputmode="numeric" value="156" required />
+              <small class="field-error" data-error-for="debitAccount"></small>
+            </div>
+            <div class="field">
+              <label for="creditAccount">Tài khoản Có <b aria-hidden="true">*</b></label>
+              <input id="creditAccount" name="creditAccount" maxlength="20" inputmode="numeric" value="331" required />
+              <small class="field-error" data-error-for="creditAccount"></small>
+            </div>
+          </div>
+
+          <section class="form-section" aria-labelledby="delivery-title">
+            <div class="section-heading">
+              <h3 id="delivery-title">Thông tin giao nhận</h3>
+              <span>Các trường có dấu * là bắt buộc</span>
+            </div>
+            <div class="field-grid">
+              <div class="field span-2">
+                <label for="supplierName">Đơn vị giao <b aria-hidden="true">*</b></label>
+                <input id="supplierName" name="supplierName" maxlength="255" autocomplete="organization" required />
+                <small class="field-error" data-error-for="supplierName"></small>
+              </div>
+              <div class="field span-2">
+                <label for="delivererName">Người giao hàng <b aria-hidden="true">*</b></label>
+                <input id="delivererName" name="delivererName" maxlength="255" autocomplete="name" required />
+                <small class="field-error" data-error-for="delivererName"></small>
+              </div>
+              <div class="field span-3">
+                <label for="supplierAddress">Địa chỉ đơn vị giao</label>
+                <input id="supplierAddress" name="supplierAddress" maxlength="1000" autocomplete="street-address" />
+              </div>
+              <div class="field">
+                <label for="supplierTaxCode">Mã số thuế</label>
+                <input id="supplierTaxCode" name="supplierTaxCode" maxlength="32" />
+              </div>
+              <div class="field span-2">
+                <label for="documentNumber">Số chứng từ gốc</label>
+                <input id="documentNumber" name="documentNumber" maxlength="50" />
+              </div>
+              <div class="field span-2">
+                <label for="documentDate">Ngày chứng từ</label>
+                <input id="documentDate" name="documentDate" type="date" />
+              </div>
+              <div class="field span-4">
+                <label for="deliveryReason">Lý do nhập <b aria-hidden="true">*</b></label>
+                <input id="deliveryReason" name="deliveryReason" maxlength="1000" value="Nhập hàng mua ngoài" required />
+                <small class="field-error" data-error-for="deliveryReason"></small>
+              </div>
+              <div class="field span-2">
+                <label for="warehouseName">Nhập tại kho <b aria-hidden="true">*</b></label>
+                <input id="warehouseName" name="warehouseName" maxlength="255" value="Kho chính" required />
+                <small class="field-error" data-error-for="warehouseName"></small>
+              </div>
+              <div class="field span-2">
+                <label for="warehouseAddress">Địa điểm kho</label>
+                <input id="warehouseAddress" name="warehouseAddress" maxlength="1000" />
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section items-section" aria-labelledby="items-title">
+            <div class="section-heading items-heading">
+              <div>
+                <h3 id="items-title">Hàng hóa thực nhập</h3>
+                <span id="item-count">1 mặt hàng</span>
+              </div>
+              <button class="button button-secondary no-print" id="add-item" type="button">Thêm dòng hàng</button>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col" class="col-order">STT</th>
+                    <th scope="col" class="col-name">Tên, nhãn hiệu, quy cách hàng hóa *</th>
+                    <th scope="col">Mã số</th>
+                    <th scope="col">ĐVT *</th>
+                    <th scope="col">Theo chứng từ</th>
+                    <th scope="col">Thực nhập *</th>
+                    <th scope="col">Đơn giá *</th>
+                    <th scope="col" class="amount-col">Thành tiền</th>
+                    <th scope="col" class="action-col no-print"><span class="sr-only">Thao tác</span></th>
+                  </tr>
+                </thead>
+                <tbody id="items-body"></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="7" scope="row">Cộng tiền hàng</th>
+                    <td id="table-total">0 ₫</td>
+                    <td class="no-print"></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <template id="item-row-template">
+              <tr class="item-row">
+                <td class="row-number"></td>
+                <td data-label="Tên hàng"><input data-field="itemName" maxlength="255" required /></td>
+                <td data-label="Mã số">
+                  <input
+                    data-field="itemCode"
+                    class="product-code-input"
+                    maxlength="80"
+                    autocomplete="off"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="product-search-popover"
+                    placeholder="Nhập mã hoặc tên"
+                  />
+                </td>
+                <td data-label="ĐVT"><input data-field="unit" maxlength="30" required /></td>
+                <td data-label="Theo chứng từ"><input data-field="quantityDocument" type="number" min="0" step="0.001" inputmode="decimal" value="0" required /></td>
+                <td data-label="Thực nhập"><input data-field="quantityActual" type="number" min="0.001" step="0.001" inputmode="decimal" required /></td>
+                <td data-label="Đơn giá"><input data-field="unitPrice" type="number" min="0" step="0.01" inputmode="decimal" required /></td>
+                <td data-label="Thành tiền" class="line-amount">0 ₫</td>
+                <td class="no-print"><button class="remove-row" type="button" aria-label="Xóa dòng hàng">Xóa</button></td>
+              </tr>
+            </template>
+
+            <div class="amount-in-words">
+              <span>Tổng số tiền (viết bằng chữ)</span>
+              <strong id="amount-words">Không đồng</strong>
+            </div>
+
+            <div class="field notes-field">
+              <label for="notes">Ghi chú</label>
+              <textarea id="notes" name="notes" rows="2" maxlength="2000"></textarea>
+            </div>
+          </section>
+
+          <section class="signatures" aria-label="Chữ ký xác nhận">
+            <div><strong>Người lập phiếu</strong><span>(Ký, họ tên)</span></div>
+            <div><strong>Người giao hàng</strong><span>(Ký, họ tên)</span></div>
+            <div><strong>Thủ kho</strong><span>(Ký, họ tên)</span></div>
+            <div><strong>Kế toán trưởng</strong><span>(Ký, họ tên)</span></div>
+          </section>
+        </article>
+
+        <div class="form-actions no-print">
+          <div id="form-message" role="status" aria-live="polite"></div>
+          <div>
+            <button class="button button-secondary" id="print-button" type="button">In bản nháp</button>
+            <button class="button button-primary" id="submit-button" type="submit">Lưu phiếu nhập</button>
+          </div>
+        </div>
+      </form>
+
+      <section id="recent-receipts" class="recent-section no-print" aria-labelledby="recent-title">
+        <div class="recent-heading">
+          <div>
+            <h2 id="recent-title">Phiếu gần đây</h2>
+            <p>Danh sách được cập nhật sau mỗi lần lưu.</p>
+          </div>
+          <button id="refresh-receipts" class="text-button" type="button">Tải lại</button>
+        </div>
+        <div id="recent-content" class="recent-content">
+          <p class="muted">Đang tải dữ liệu...</p>
+        </div>
+      </section>
+    </main>
+    <div
+      id="product-search-popover"
+      class="product-search-popover no-print"
+      role="listbox"
+      hidden
+    ></div>
+  </body>
+</html>
