@@ -5,7 +5,7 @@ import { ProductRepository } from "../app/repositories/product.repository.js";
 import { createApp } from "./create-app.js";
 import { registerProcessErrorHandlers } from "./process-error-handlers.js";
 
-const port = Number(process.env.PORT ?? 3000);
+const port = Number(process.env.PORT ?? 3100);
 await appDataSource.initialize();
 const app = createApp(
   new WarehouseReceiptRepository(appDataSource),
